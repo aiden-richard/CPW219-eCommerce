@@ -1,6 +1,7 @@
 ﻿using eCommerce.Data;
 using eCommerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Controllers;
 
@@ -8,9 +9,10 @@ public class BookController(BookDbContext context) : Controller
 {
     private readonly BookDbContext _context = context;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        List<Book> allBooks = await _context.Books.ToListAsync();
+        return View(allBooks);
     }
 
     [HttpGet]

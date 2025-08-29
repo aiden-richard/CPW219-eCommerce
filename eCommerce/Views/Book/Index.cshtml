@@ -1,3 +1,27 @@
-﻿
+﻿@model IEnumerable<Book>
 @{
+    ViewData["Title"] = "Book List";
 }
+
+<h2>Book List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().Title)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Price)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Price.ToString("C")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@book.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                </td>
+            </tr>
+        }
+</table>
