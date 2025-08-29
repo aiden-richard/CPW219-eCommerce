@@ -38,10 +38,8 @@ else
                 <td>@Html.DisplayFor(_ => book.Title)</td>
                 <td class="text-end">@Html.DisplayFor(_ => book.Price)</td>
                 <td class="text-nowrap">
-                    <div class="btn-group btn-group-sm">
-                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-outline-secondary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-outline-danger">Delete</a>
-                    </div>
+                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
