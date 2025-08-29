@@ -30,7 +30,7 @@ public class BookController(BookDbContext context) : Controller
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = $"Book \"{book.Title}\"created successfully!";
+            TempData["SuccessMessage"] = $"Book \"{book.Title}\" created successfully!";
 
             // Redirect to a confirmation or list page
             return RedirectToAction(nameof(Index));
