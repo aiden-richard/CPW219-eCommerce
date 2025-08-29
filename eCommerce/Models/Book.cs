@@ -47,7 +47,7 @@ public class Book
     /// The ISBN number of the book.
     /// </summary>
     [Required]
-    [StringLength(13, MinimumLength = 10, ErrorMessage = "ISBN cannot exceed 13 characters.")]
+    [StringLength(13, MinimumLength = 10, ErrorMessage = "ISBN cannot be less than 10 or exceed 13 characters.")]
     public string? ISBN { get; set; }
 
     /// <summary>
