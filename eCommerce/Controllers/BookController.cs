@@ -66,4 +66,36 @@ public class BookController(BookDbContext context) : Controller
 
         return View(book);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        Book? book = await _context.Books.FindAsync(id);
+
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return View(book);
+    }
+
+    [ActionName(nameof(Delete))]
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        Book? book = await _context.Books.FindAsync(id);
+
+        if (book == null)
+        {
+            TempData["ErrorMessage"] = "Book not found or already deleted.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = $"Book \"{book.Title}\" deleted successfully!";
+        return RedirectToAction(nameof(Index));
+    }
 }
