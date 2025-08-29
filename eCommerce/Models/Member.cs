@@ -39,3 +39,38 @@ public class Member
     public DateOnly DateOfBirth { get; set; }
 
 }
+
+public class RegistrationViewModel
+{
+    /// <summary>
+    /// The username of the member.
+    /// </summary>
+    [RegularExpression("^[a-aA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
+    [StringLength(30, MinimumLength = 1, ErrorMessage = "Username must be between 1 and 30 characters")]
+    public required string Username { get; set; }
+
+    /// <summary>
+    /// The password of the member.
+    /// </summary>
+    [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    public required string Password { get; set; }
+
+    /// <summary>
+    /// The confirmed password of the member.
+    /// </summary>
+    [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    [Compare(nameof(Password))]
+    public required string ConfirmPassword { get; set; }
+
+    /// <summary>
+    /// The email address of the member.
+    /// </summary>
+    [EmailAddress]
+    public required string Email { get; set; }
+
+    /// <summary>
+    /// The date of birth of the member.
+    /// </summary>
+    [DataType(DataType.Date)]
+    public DateOnly DateOfBirth { get; set; }
+}
