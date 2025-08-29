@@ -18,16 +18,14 @@ public class Book
     /// <summary>
     /// The title of the book.
     /// </summary>
-    [Required]
     [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]
-    public string? Title { get; set; }
+    public required string Title { get; set; }
 
     /// <summary>
     /// The author of the book.
     /// </summary>
-    [Required]
     [StringLength(100, ErrorMessage = "Author name cannot exceed 100 characters.")]
-    public string? Author { get; set; }
+    public required string Author { get; set; }
 
     /// <summary>
     /// Publication date of the book.
@@ -48,11 +46,11 @@ public class Book
     /// </summary>
     [Required]
     [StringLength(13, MinimumLength = 10, ErrorMessage = "ISBN cannot be less than 10 or exceed 13 characters.")]
-    public string? ISBN { get; set; }
+    public required string ISBN { get; set; }
 
     /// <summary>
     /// The description or summary of the book. Optional field.
     /// </summary>
     [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters.")]
-    public string? Description { get; set; }
+    public required string Description { get; set; }
 }
