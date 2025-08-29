@@ -42,9 +42,7 @@ public class BookController(BookDbContext context) : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
-        Book? book = await _context.Books
-            .Where(b => b.Id == id)
-            .FirstOrDefaultAsync();
+        Book? book = await _context.Books.FindAsync(id);
 
         if (book == null)
         {
