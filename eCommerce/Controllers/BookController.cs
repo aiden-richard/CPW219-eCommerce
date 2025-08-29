@@ -38,4 +38,19 @@ public class BookController(BookDbContext context) : Controller
 
         return View(book);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        Book? book = await _context.Books
+            .Where(b => b.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (book == null)
+        {
+            return NotFound();
+        }
+
+        return View(book);
+    }
 }
