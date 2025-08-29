@@ -42,13 +42,26 @@ public class BookController(BookDbContext context) : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
-        Book? book = await _context.Books
-            .Where(b => b.Id == id)
-            .FirstOrDefaultAsync();
+        Book? book = await _context.Books.FindAsync(id);
 
         if (book == null)
         {
             return NotFound();
+        }
+
+        return View(book);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Book book)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Update(book);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = $"Book \"{book.Title}\" updated successfully!";
+            return RedirectToAction(nameof(Index));
         }
 
         return View(book);
