@@ -32,7 +32,7 @@ public class Book
     /// </summary>
     [DataType(DataType.Date)]
     [Display(Name = "Publication Date")]
-    public DateTime PublishedDate { get; set; }
+    public DateOnly PublishedDate { get; set; }
 
     /// <summary>
     /// The price of the book, stored as a decimal.
