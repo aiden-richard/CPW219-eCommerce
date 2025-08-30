@@ -11,8 +11,8 @@ using eCommerce.Data;
 namespace eCommerce.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20250828234234_Initial")]
-    partial class Initial
+    [Migration("20250829031946_ChangeValidation")]
+    partial class ChangeValidation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,7 @@ namespace eCommerce.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
@@ -43,7 +44,7 @@ namespace eCommerce.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("PublishedDate")
+                    b.Property<DateOnly>("PublishedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -54,6 +55,40 @@ namespace eCommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("eCommerce.Models.Member", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Members");
                 });
 #pragma warning restore 612, 618
         }

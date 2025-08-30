@@ -8,8 +8,6 @@
 
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
-
     <div class="mb-3">
         <label asp-for="Title"></label>
         <input asp-for="Title" class="form-control" />

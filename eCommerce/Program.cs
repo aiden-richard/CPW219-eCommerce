@@ -6,9 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Add DB context settings
-builder.Services.AddDbContext<eCommerce.Data.BookDbContext>(options =>
+builder.Services.AddDbContext<eCommerce.Data.BookShopDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+// Add session support
+builder.Services.AddDistributedMemoryCache();
+
+// Configure session options
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -24,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapStaticAssets();
 
