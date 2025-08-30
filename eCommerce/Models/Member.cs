@@ -16,7 +16,7 @@ public class Member
     /// <summary>
     /// The username of the member.
     /// </summary>
-    [RegularExpression("^[a-ZA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
+    [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
     [StringLength(30, MinimumLength = 1, ErrorMessage = "Username must be between 1 and 30 characters")]
     public required string Username { get; set; }
 
@@ -74,4 +74,18 @@ public class RegistrationViewModel
     /// </summary>
     [DataType(DataType.Date)]
     public DateOnly DateOfBirth { get; set; }
+}
+
+public class LoginViewModel
+{
+    /// <summary>
+    /// The username of the member.
+    /// </summary>
+    public required string UsernameOrEmail { get; set; }
+
+    /// <summary>
+    /// The password of the member.
+    /// </summary>
+    [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    public required string Password { get; set; }
 }
