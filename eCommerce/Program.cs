@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Add DB context settings
-builder.Services.AddDbContext<eCommerce.Data.BookDbContext>(options =>
+builder.Services.AddDbContext<eCommerce.Data.BookShopDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
