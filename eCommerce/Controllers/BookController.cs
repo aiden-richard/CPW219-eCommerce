@@ -9,10 +9,46 @@ public class BookController(BookShopDbContext context) : Controller
 {
     private readonly BookShopDbContext _context = context;
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1, string? sortField = null, string? sortDir = null)
     {
-        List<Book> allBooks = await _context.Books.ToListAsync();
-        return View(allBooks);
+        const int pageSize = 3; // Products per page (easily changeable)
+
+        sortField ??= "Title"; // default sort
+        sortDir = string.Equals(sortDir, "desc", StringComparison.OrdinalIgnoreCase) ? "desc" : "asc";
+
+        IQueryable<Book> query = _context.Books;
+
+        // SQLite cannot order directly by decimal (mapped as TEXT) reliably; cast to double for ordering.
+        query = (sortField, sortDir) switch
+        {
+            ("Price", "asc") => query.OrderBy(b => (double)b.Price).ThenBy(b => b.Id),
+            ("Price", "desc") => query.OrderByDescending(b => (double)b.Price).ThenBy(b => b.Id),
+            ("Title", "desc") => query.OrderByDescending(b => b.Title).ThenBy(b => b.Id),
+            _ => query.OrderBy(b => b.Title).ThenBy(b => b.Id)
+        };
+
+        int totalItems = await query.CountAsync();
+        int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        if (page < 1) page = 1;
+        if (page > totalPages && totalPages > 0) page = totalPages;
+
+        List<Book> books = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var vm = new BookListViewModel
+        {
+            Books = books,
+            CurrentPage = page,
+            TotalPages = totalPages,
+            PageSize = pageSize,
+            TotalItems = totalItems,
+            SortField = sortField,
+            SortDirection = sortDir
+        };
+
+        return View(vm);
     }
 
     [HttpGet]
