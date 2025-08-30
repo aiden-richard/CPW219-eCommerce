@@ -38,4 +38,10 @@ public class MemberController(BookShopDbContext context) : Controller
 
         return View(vm);
     }
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return View();
+    }
 }
