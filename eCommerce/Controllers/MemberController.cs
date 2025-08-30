@@ -61,8 +61,19 @@ public class MemberController(BookShopDbContext context) : Controller
                 return View(login);
             }
 
+            // Store member info in session
+            HttpContext.Session.SetString("Username", loggedInMember.Username);
+            HttpContext.Session.SetInt32("Id", loggedInMember.Id);
+
             return RedirectToAction("Index", "Home");
         }
         return View(login);
+    }
+
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
     }
 }
