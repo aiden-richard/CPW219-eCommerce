@@ -22,13 +22,13 @@ public class MemberController(BookShopDbContext context) : Controller
         if (ModelState.IsValid)
         {
             // Check if username or email already exists
-            bool UserExists = await _context.Members.AnyAsync(m => m.Username == reg.Username);
+            bool UserExists = await _context.Members.AnyAsync(m => m.Username.ToUpper() == reg.Username.ToUpper());
             if (UserExists)
             {
                 ModelState.AddModelError(nameof(Member.Username), "This username is taken");
             }
 
-            bool EmailExists = await _context.Members.AnyAsync(m => m.Email == reg.Email);
+            bool EmailExists = await _context.Members.AnyAsync(m => m.Email.ToUpper() == reg.Email.ToUpper());
             if (EmailExists)
             {
                 ModelState.AddModelError(nameof(Member.Email), "Email address already associated with an account");
@@ -68,10 +68,12 @@ public class MemberController(BookShopDbContext context) : Controller
     {
         if (ModelState.IsValid)
         {
-            Member? loggedInMember = await _context.Members
-                                            .Where(m => (m.Username == login.UsernameOrEmail || m.Email == login.UsernameOrEmail)
-                                                        && m.Password == login.Password)
-                                            .SingleOrDefaultAsync();
+            // Check credentials
+            var loggedInMember = await _context.Members
+                .Where(m => (m.Username == login.UsernameOrEmail || m.Email == login.UsernameOrEmail)
+                            && m.Password == login.Password)
+                .Select(m => new { m.Username, m.Id })
+                .SingleOrDefaultAsync();
 
             if (loggedInMember == null)
             {
