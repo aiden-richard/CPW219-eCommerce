@@ -81,6 +81,7 @@ public class LoginViewModel
     /// <summary>
     /// The username of the member.
     /// </summary>
+    [Display(Name = "Username or Email")]
     public required string UsernameOrEmail { get; set; }
 
     /// <summary>
