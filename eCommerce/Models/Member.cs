@@ -24,6 +24,7 @@ public class Member
     /// The password of the member.
     /// </summary>
     [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    [DataType(DataType.Password)]
     public required string Password { get; set; }
 
     /// <summary>
@@ -53,6 +54,7 @@ public class RegistrationViewModel
     /// The password of the member.
     /// </summary>
     [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    [DataType(DataType.Password)]
     public required string Password { get; set; }
 
     /// <summary>
@@ -61,6 +63,7 @@ public class RegistrationViewModel
     [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
     [Compare(nameof(Password))]
     [Display(Name = "Confirm Password")]
+    [DataType(DataType.Password)]
     public required string ConfirmPassword { get; set; }
 
     /// <summary>
@@ -88,5 +91,6 @@ public class LoginViewModel
     /// The password of the member.
     /// </summary>
     [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
+    [DataType(DataType.Password)]
     public required string Password { get; set; }
 }
