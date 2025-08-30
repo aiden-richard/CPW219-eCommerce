@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Controllers;
 
-public class BookController(BookDbContext context) : Controller
+public class BookController(BookShopDbContext context) : Controller
 {
-    private readonly BookDbContext _context = context;
+    private readonly BookShopDbContext _context = context;
 
     public async Task<IActionResult> Index()
     {
