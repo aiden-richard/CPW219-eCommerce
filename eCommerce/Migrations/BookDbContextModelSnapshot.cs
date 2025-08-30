@@ -9,7 +9,7 @@ using eCommerce.Data;
 
 namespace eCommerce.Migrations
 {
-    [DbContext(typeof(BookDbContext))]
+    [DbContext(typeof(BookShopDbContext))]
     partial class BookDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace eCommerce.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("PublishedDate")
+                    b.Property<DateOnly>("PublishedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")

@@ -11,8 +11,8 @@ using eCommerce.Data;
 namespace eCommerce.Migrations
 {
     [DbContext(typeof(BookShopDbContext))]
-    [Migration("20250829022910_AddMember")]
-    partial class AddMember
+    [Migration("20250829031946_ChangeValidation")]
+    partial class ChangeValidation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace eCommerce.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("PublishedDate")
+                    b.Property<DateOnly>("PublishedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")

@@ -10,7 +10,7 @@ using eCommerce.Data;
 
 namespace eCommerce.Migrations
 {
-    [DbContext(typeof(BookDbContext))]
+    [DbContext(typeof(BookShopDbContext))]
     [Migration("20250828234234_Initial")]
     partial class Initial
     {

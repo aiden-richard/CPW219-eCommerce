@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eCommerce.Data;
 
-public class BookDbContext : DbContext
+public class BookShopDbContext : DbContext
 {
-    public BookDbContext(DbContextOptions<BookDbContext> options) : base(options)
+    public BookShopDbContext(DbContextOptions<BookShopDbContext> options) : base(options)
     {
     }
 
