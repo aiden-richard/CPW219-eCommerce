@@ -16,7 +16,7 @@ public class Member
     /// <summary>
     /// The username of the member.
     /// </summary>
-    [RegularExpression("^[a-aA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
+    [RegularExpression("^[a-ZA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
     [StringLength(30, MinimumLength = 1, ErrorMessage = "Username must be between 1 and 30 characters")]
     public required string Username { get; set; }
 
@@ -45,7 +45,7 @@ public class RegistrationViewModel
     /// <summary>
     /// The username of the member.
     /// </summary>
-    [RegularExpression("^[a-aA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
+    [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Username must be alphanumeric")]
     [StringLength(30, MinimumLength = 1, ErrorMessage = "Username must be between 1 and 30 characters")]
     public required string Username { get; set; }
 
@@ -60,6 +60,7 @@ public class RegistrationViewModel
     /// </summary>
     [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters")]
     [Compare(nameof(Password))]
+    [Display(Name = "Confirm Password")]
     public required string ConfirmPassword { get; set; }
 
     /// <summary>
