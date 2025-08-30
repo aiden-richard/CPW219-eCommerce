@@ -1,6 +1,13 @@
-﻿@model IEnumerable<Book>
+﻿@model BookListViewModel
 @{
     ViewData["Title"] = "Book List";
+
+    string NextSortDir(string field) => Model.SortField == field && Model.SortDirection == "asc" ? "desc" : "asc";
+    string SortIcon(string field)
+    {
+        if (Model.SortField != field) return "";
+        return Model.SortDirection == "asc" ? "bi-caret-up-fill" : "bi-caret-down-fill";
+    }
 }
 
 <h2 class="mb-4">Book Listing</h2>
@@ -17,7 +24,7 @@
     </div>
 }
 
-@if (Model == null || Model.Count() == 0)
+@if (Model.Books == null || !Model.Books.Any())
 {
     <div class="alert alert-info">No books found.</div>
 }
@@ -26,23 +33,49 @@ else
     <table class="table table-striped table-hover align-middle">
         <thead class="table-dark">
             <tr>
-                <th>@Html.DisplayNameFor(m => m.First().Title)</th>
-                <th class="text-end">@Html.DisplayNameFor(m => m.First().Price)</th>
+                <th>
+                    <a class="text-white text-decoration-none" asp-action="Index" asp-route-page="1" asp-route-sortField="Title" asp-route-sortDir="@NextSortDir("Title")">
+                        Title <i class="bi @SortIcon("Title")"></i>
+                    </a>
+                </th>
+                <th class="text-end">
+                    <a class="text-white text-decoration-none" asp-action="Index" asp-route-page="1" asp-route-sortField="Price" asp-route-sortDir="@NextSortDir("Price")">
+                        Price <i class="bi @SortIcon("Price")"></i>
+                    </a>
+                </th>
                 <th style="width: 1%;"></th>
             </tr>
         </thead>
         <tbody>
-        @foreach (var book in Model)
+        @foreach (var book in Model.Books)
         {
             <tr>
-                <td>@Html.DisplayFor(_ => book.Title)</td>
-                <td class="text-end">@Html.DisplayFor(_ => book.Price)</td>
+                <td>@book.Title</td>
+                <td class="text-end">@book.Price.ToString("C")</td>
                 <td class="text-nowrap">
-                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }
         </tbody>
     </table>
+
+    <nav aria-label="Book pagination">
+        <ul class="pagination">
+            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-sortField="@Model.SortField" asp-route-sortDir="@Model.SortDirection">Previous</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-sortField="@Model.SortField" asp-route-sortDir="@Model.SortDirection">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-sortField="@Model.SortField" asp-route-sortDir="@Model.SortDirection">Next</a>
+            </li>
+        </ul>
+        <p class="text-muted small">Showing page @Model.CurrentPage of @Model.TotalPages (@Model.TotalItems total books, @Model.PageSize per page) - Sorted by @Model.SortField (@Model.SortDirection)</p>
+    </nav>
 }
