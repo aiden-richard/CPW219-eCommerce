@@ -17,17 +17,35 @@ public class MemberController(BookShopDbContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegistrationViewModel vm)
+    public async Task<IActionResult> Register(RegistrationViewModel reg)
     {
         if (ModelState.IsValid)
         {
+            // Check if username or email already exists
+            bool UserExists = await _context.Members.AnyAsync(m => m.Username == reg.Username);
+            if (UserExists)
+            {
+                ModelState.AddModelError(nameof(Member.Username), "This username is taken");
+            }
+
+            bool EmailExists = await _context.Members.AnyAsync(m => m.Email == reg.Email);
+            if (EmailExists)
+            {
+                ModelState.AddModelError(nameof(Member.Email), "Email address already associated with an account");
+            }
+
+            if (UserExists || EmailExists)
+            {
+                return View(reg);
+            }
+
             // Map the ViewModel to the Member entity
             Member newMember = new()
             {
-                Username = vm.Username,
-                Password = vm.Password,
-                Email = vm.Email,
-                DateOfBirth = vm.DateOfBirth
+                Username = reg.Username,
+                Password = reg.Password,
+                Email = reg.Email,
+                DateOfBirth = reg.DateOfBirth
             };
             _context.Members.Add(newMember);
 
@@ -36,7 +54,7 @@ public class MemberController(BookShopDbContext context) : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        return View(vm);
+        return View(reg);
     }
 
     [HttpGet]
