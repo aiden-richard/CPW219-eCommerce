@@ -17,17 +17,35 @@ public class MemberController(BookShopDbContext context) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegistrationViewModel vm)
+    public async Task<IActionResult> Register(RegistrationViewModel reg)
     {
         if (ModelState.IsValid)
         {
+            // Check if username or email already exists
+            bool UserExists = await _context.Members.AnyAsync(m => m.Username.ToUpper() == reg.Username.ToUpper());
+            if (UserExists)
+            {
+                ModelState.AddModelError(nameof(Member.Username), "This username is taken");
+            }
+
+            bool EmailExists = await _context.Members.AnyAsync(m => m.Email.ToUpper() == reg.Email.ToUpper());
+            if (EmailExists)
+            {
+                ModelState.AddModelError(nameof(Member.Email), "Email address already associated with an account");
+            }
+
+            if (UserExists || EmailExists)
+            {
+                return View(reg);
+            }
+
             // Map the ViewModel to the Member entity
             Member newMember = new()
             {
-                Username = vm.Username,
-                Password = vm.Password,
-                Email = vm.Email,
-                DateOfBirth = vm.DateOfBirth
+                Username = reg.Username,
+                Password = reg.Password,
+                Email = reg.Email,
+                DateOfBirth = reg.DateOfBirth
             };
             _context.Members.Add(newMember);
 
@@ -36,7 +54,7 @@ public class MemberController(BookShopDbContext context) : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        return View(vm);
+        return View(reg);
     }
 
     [HttpGet]
@@ -50,10 +68,12 @@ public class MemberController(BookShopDbContext context) : Controller
     {
         if (ModelState.IsValid)
         {
-            Member? loggedInMember = await _context.Members
-                                            .Where(m => (m.Username == login.UsernameOrEmail || m.Email == login.UsernameOrEmail)
-                                                        && m.Password == login.Password)
-                                            .SingleOrDefaultAsync();
+            // Check credentials
+            var loggedInMember = await _context.Members
+                .Where(m => (m.Username == login.UsernameOrEmail || m.Email == login.UsernameOrEmail)
+                            && m.Password == login.Password)
+                .Select(m => new { m.Username, m.Id })
+                .SingleOrDefaultAsync();
 
             if (loggedInMember == null)
             {
