@@ -9,7 +9,7 @@ public class BookController(BookShopDbContext context) : Controller
 {
     private readonly BookShopDbContext _context = context;
 
-    public async Task<IActionResult> Index(int page = 1, string? sortField = null, string? sortDir = null)
+    public async Task<IActionResult> Index(int page = 1, string? sortField = null, string? sortDir = null, string? searchTerm = null)
     {
         const int pageSize = 3; // Products per page (easily changeable)
 
@@ -17,6 +17,12 @@ public class BookController(BookShopDbContext context) : Controller
         sortDir = string.Equals(sortDir, "desc", StringComparison.OrdinalIgnoreCase) ? "desc" : "asc";
 
         IQueryable<Book> query = _context.Books;
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            string term = searchTerm.ToUpper().Trim();
+            query = query.Where(b => b.Title.ToUpper().Contains(term) || b.Author.ToUpper().Contains(term));
+        }
 
         // SQLite cannot order directly by decimal (mapped as TEXT) reliably; cast to double for ordering.
         query = (sortField, sortDir) switch
@@ -45,7 +51,8 @@ public class BookController(BookShopDbContext context) : Controller
             PageSize = pageSize,
             TotalItems = totalItems,
             SortField = sortField,
-            SortDirection = sortDir
+            SortDirection = sortDir,
+            SearchTerm = searchTerm
         };
 
         return View(vm);

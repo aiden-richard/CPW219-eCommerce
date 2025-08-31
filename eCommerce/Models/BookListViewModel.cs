@@ -11,4 +11,5 @@ public class BookListViewModel
     public int TotalItems { get; set; }
     public string? SortField { get; set; }
     public string? SortDirection { get; set; } // "asc" or "desc"
+    public string? SearchTerm { get; set; } // current search query
 }
