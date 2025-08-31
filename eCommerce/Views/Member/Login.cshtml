@@ -5,6 +5,14 @@
 
 <h2>Login</h2>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form method="post">
@@ -18,8 +26,9 @@
         <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <div class="mb-3">
+    <div class="mb-3 d-flex align-items-center gap-2">
         <button type="submit" class="btn btn-primary">Login</button>
+        <a asp-controller="Member" asp-action="Register" class="btn btn-link">Register</a>
     </div>
 </form>
 
