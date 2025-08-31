@@ -11,7 +11,7 @@ public class BookController(BookShopDbContext context) : Controller
 
     public async Task<IActionResult> Index(int page = 1, string? sortField = null, string? sortDir = null, string? searchTerm = null)
     {
-        const int pageSize = 3; // Products per page (easily changeable)
+        const int pageSize = 10; // Products per page
 
         sortField ??= "Title"; // default sort
         sortDir = string.Equals(sortDir, "desc", StringComparison.OrdinalIgnoreCase) ? "desc" : "asc";
