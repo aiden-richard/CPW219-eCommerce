@@ -61,12 +61,26 @@ public class BookController(BookShopDbContext context) : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Create a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Create(Book book)
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Create a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         if (ModelState.IsValid)
         {
             // Add to database
@@ -85,6 +99,13 @@ public class BookController(BookShopDbContext context) : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Edit a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         Book? book = await _context.Books.FindAsync(id);
 
         if (book == null)
@@ -98,6 +119,13 @@ public class BookController(BookShopDbContext context) : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Book book)
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Edit a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         if (ModelState.IsValid)
         {
             _context.Update(book);
@@ -113,6 +141,13 @@ public class BookController(BookShopDbContext context) : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Delete a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         Book? book = await _context.Books.FindAsync(id);
 
         if (book == null)
@@ -127,6 +162,13 @@ public class BookController(BookShopDbContext context) : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
+        // Require login
+        if (HttpContext.Session.GetString("Username") == null)
+        {
+            TempData["ErrorMessage"] = "Please sign in to Delete a book.";
+            return RedirectToAction("Login", "Member");
+        }
+
         Book? book = await _context.Books.FindAsync(id);
 
         if (book == null)
