@@ -110,7 +110,8 @@ else
                 </ul>
             }
         </nav>
-        @if (isLoggedIn)
+
+        @if (isLoggedIn) // Different create button based on isLoggedIn
         {
             <a asp-action="Create" asp-controller="Book" class="btn btn-primary mb-2 mb-sm-0">
                 <i class="bi bi-plus-circle"></i> Create New Book

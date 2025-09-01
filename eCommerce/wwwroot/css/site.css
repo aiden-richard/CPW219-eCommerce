@@ -1,31 +1,118 @@
-html {
-  font-size: 14px;
+/* Theme & Typography */
+:root {
+  --color-primary: #1e88e5;
+  --color-primary-rgb: 30,136,229;
+  --color-primary-hover: #156cbf;
+  --color-secondary: #546e7a;
+  --color-accent: #ffb300;
+  --color-danger: #e53935;
+  --color-bg: #0d1117;
+  --color-surface: #162230;
+  --color-surface-alt: #1f3042;
+  --color-border: #2b3d4e;
+  --color-text: #e6edf3;
+  --color-text-light: #9fb2c1;
+  --radius-sm: 4px;
+  --radius: 8px;
+  --transition-fast: 120ms ease;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+  --shadow: 0 4px 10px -2px rgba(0,0,0,.5);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+html { font-size: 14px; scroll-behavior: smooth; }
+@media (min-width: 768px) { html { font-size: 16px; } }
+html { position: relative; min-height: 100%; }
 body {
   margin-bottom: 60px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  background: linear-gradient(145deg,#0d1117,#132033 55%,#0d1117);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Navbar override */
+.app-navbar { background: linear-gradient(90deg,#0f1b2a,#102a44,#0f1b2a); }
+.navbar-dark .navbar-nav .nav-link { color: rgba(255,255,255,.85); }
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus { color:#fff; }
+.navbar-dark .navbar-brand { color:#fff; }
+
+/* Links */
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-fast); }
+a:hover, a:focus { color: var(--color-primary-hover); text-decoration: underline; }
+
+/* Focus Ring Harmonized */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus, .form-select:focus {
+  box-shadow: 0 0 0 .15rem rgba(var(--color-primary-rgb), .35);
+  border-color: rgba(var(--color-primary-rgb), .6);
+  outline: none;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Buttons */
+.btn-primary { background: var(--color-primary); border-color: var(--color-primary); }
+.btn-primary:hover, .btn-primary:focus { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+.btn-outline-primary { color: var(--color-primary); border-color: var(--color-primary); }
+.btn-outline-primary:hover { color: #fff; background: var(--color-primary); }
+.btn-danger { background: var(--color-danger); border-color: var(--color-danger); }
+.btn-danger:hover { background:#c62828; border-color:#c62828; }
+
+/* Cards / Surfaces */
+.card { border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--shadow-sm); transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast); }
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); background: var(--color-surface-alt); }
+.card-title { font-weight: 600; color: var(--color-text); }
+
+/* Form Elements */
+.form-control, .form-select, textarea.form-control {
+  background: #1b2a39; color: var(--color-text); border:1px solid var(--color-border); border-radius: var(--radius-sm);
+}
+.form-control:focus, .form-select:focus, textarea.form-control:focus { background:#223549; color:#fff; }
+.form-control::placeholder { color: var(--color-text-light); }
+
+/* Tables */
+.table { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+.table thead th { background:#1f3042; color: var(--color-text-light); border-bottom:2px solid var(--color-border); }
+.table-striped tbody tr:nth-of-type(odd) { background:#162230; }
+.table-striped tbody tr:nth-of-type(even) { background:#1b2a39; }
+.table-hover tbody tr:hover { background:#24415e; color:#fff; }
+.table-dark th a { color: var(--color-text); }
+
+/* Product Grid */
+.product-grid { display: grid; gap: 1.25rem; }
+@media (min-width:576px){ .product-grid { grid-template-columns: repeat(2,1fr); } }
+@media (min-width:768px){ .product-grid { grid-template-columns: repeat(3,1fr); } }
+@media (min-width:1200px){ .product-grid { grid-template-columns: repeat(4,1fr); } }
+
+/* Alerts */
+.alert { border-radius: var(--radius-sm); }
+.alert-primary { background: rgba(var(--color-primary-rgb), .12); border:1px solid rgba(var(--color-primary-rgb), .35); color: var(--color-primary); }
+.alert-danger { background: rgba(229,57,53,.12); border:1px solid rgba(229,57,53,.4); color:#ff6f60; }
+
+/* Footer */
+footer { background:#162230; border-top:1px solid var(--color-border); color: var(--color-text-light); }
+footer a { color: var(--color-primary); }
+footer a:hover { color: var(--color-primary-hover); }
+
+/* Utilities */
+.bg-surface { background: var(--color-surface)!important; }
+.text-light-muted { color: var(--color-text-light)!important; }
+.rounded { border-radius: var(--radius)!important; }
+.shadow-sm { box-shadow: var(--shadow-sm)!important; }
+
+/* Selection */
+::selection { background: rgba(var(--color-primary-rgb), .35); color:#fff; }
+
+/* Light scheme adjustments (no white tables) */
+@media (prefers-color-scheme: light) {
+  :root { --color-bg:#f0f6fc; --color-surface:#ffffff; --color-surface-alt:#eef5fb; --color-border:#d2e0eb; --color-text:#203040; --color-text-light:#5a6b7b; }
+  body { background: linear-gradient(145deg,#e8f2fa,#f5f9fc 60%,#e8f2fa); }
+  .card { background: var(--color-surface); }
+  .table { background: var(--color-surface-alt); }
+  .table thead th { background:#dfeaf5; color: var(--color-text); }
+  .table-striped tbody tr:nth-of-type(odd){ background:#eef5fb; }
+  .table-striped tbody tr:nth-of-type(even){ background:#ffffff; }
+  .table-hover tbody tr:hover { background:#d4e6f4; }
+  footer { background:#fff; }
+  .form-control, .form-select, textarea.form-control { background:#ffffff; color: var(--color-text); }
+  .form-control:focus, .form-select:focus, textarea.form-control:focus { background:#ffffff; }
+  .app-navbar { background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover)); }
 }
